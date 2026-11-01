@@ -46,8 +46,10 @@ class Handler(SimpleHTTPRequestHandler):
     def do_GET(self):
         parsed = urlparse(self.path)
         if parsed.path == "/api/scan":
-            domain = parse_qs(parsed.query).get("domain", [""])[0]
-            ok, result = check_scope(domain)
+            qs = parse_qs(parsed.query)
+            domain = qs.get("domain", [""])[0]
+            confirmed = qs.get("confirm", [""])[0].lower() == "true"
+            ok, result = check_scope(domain, confirmed=confirmed)
             if not ok:
                 self.send_json(result, status=403)
                 return

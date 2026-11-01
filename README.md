@@ -36,3 +36,13 @@ Then open http://127.0.0.1:8000
 - See DNS + passive subdomains in the browser, download report as JSON (local only)
 - Out-of-scope targets get 403 OUT_OF_SCOPE_TARGET, no scan
 - Files: server.py (stdlib only, no pip install), web/index.html, web/style.css, web/app.js
+
+## Step 3 - Use any domain (with permission confirmation)
+- Scope is no longer hard-coded to example.com.
+- CLI: `python3 main.py <your-domain>` then answer `yes` to the permission question.
+  Anything else stops before any lookup.
+- Web: type any domain, tick the permission checkbox (required), Start passive recon.
+  The web API now requires `confirm=true`, otherwise 403 PERMISSION_NOT_CONFIRMED.
+- Warning: only use domains you own, or have written permission to test.
+  Step 3 does NOT verify ownership yet - DNS TXT verification is a later ReconX step.
+  Passive checks only: DNS + crt.sh public records, no port scan, no personal data.

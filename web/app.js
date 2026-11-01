@@ -8,7 +8,7 @@ form.addEventListener('submit', async (e) => {
   const domain = document.getElementById('domain').value.trim();
   statusEl.textContent = 'Running passive recon...';
   resultsEl.hidden = true;
-  const res = await fetch('/api/scan?domain=' + encodeURIComponent(domain));
+  const res = await fetch('/api/scan?domain=' + encodeURIComponent(domain) + '&confirm=true');
   const data = await res.json();
   lastReport = data;
   if (!res.ok) {

@@ -1,15 +1,19 @@
-"""Step 1, piece 1: scope check.
+"""Step 3: runtime scope - any domain, with permission confirmation.
 
 Logic, in plain words:
-- Normalise: lower-case, strip spaces, strip a trailing dot.
-- Validate: a domain must look like name.name, letters/digits/hyphens only.
-- Scope: a target is in scope only if it IS an approved domain,
-  or a subdomain of an approved domain.
-- Out of scope: return an OUT_OF_SCOPE error, and the caller must NOT scan.
+- Step 1-2 hard-coded scope (example.com only) is removed.
+- Now the user types any domain at run time.
+- Two checks must pass, in order:
+  1. Domain syntax must be valid.
+  2. Permission must be confirmed: "I own this domain, or I have
+     written permission to test it." Without that, no lookup runs.
+- This step does NOT verify ownership (DNS TXT verification is a
+  later ReconX v2.0 step). The confirmation is the user's
+  responsibility: only use domains you own or have written
+  permission for. The app still does passive checks only.
+- Out-of-scope is now replaced by PERMISSION_NOT_CONFIRMED.
 """
 import re
-
-APPROVED_SCOPE = ["example.com"]  # Lab target for Step 1
 
 DOMAIN_RE = re.compile(r"^(?!-)[a-z0-9-]{1,63}(?<!-)(\.[a-z0-9-]{1,63})+$")
 
@@ -19,24 +23,15 @@ def normalize(domain: str) -> str:
 def is_valid_domain(domain: str) -> bool:
     return bool(DOMAIN_RE.match(domain))
 
-def is_in_scope(domain: str, scope=None) -> bool:
-    scope = scope or APPROVED_SCOPE
-    domain = normalize(domain)
-    for approved in scope:
-        approved = normalize(approved)
-        if domain == approved or domain.endswith("." + approved):
-            return True
-    return False
-
-def check_scope(domain: str):
-    """Returns (ok, message_or_error_dict)."""
+def check_scope(domain: str, confirmed: bool = False):
+    """Returns (ok, message_or_domain)."""
     domain = normalize(domain)
     if not is_valid_domain(domain):
         return False, {"error": "INVALID_DOMAIN", "target": domain, "scan_started": False}
-    if not is_in_scope(domain):
+    if not confirmed:
         return False, {
-            "error": "OUT_OF_SCOPE_TARGET",
-            "message": "The requested target is not included in the verified project scope.",
+            "error": "PERMISSION_NOT_CONFIRMED",
+            "message": "Confirm you own this domain, or have written permission to test it, before any lookup.",
             "target": domain,
             "scan_started": False,
         }
