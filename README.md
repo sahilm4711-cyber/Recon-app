@@ -26,3 +26,13 @@ python3 main.py google.com   # should be rejected - out of scope, before any loo
 ## Safety
 Passive / public records only. No port scan, no personal data,
 no other person's email / phone / username. Only authorised / lab targets.
+
+## Real web application (new)
+```
+python3 server.py
+```
+Then open http://127.0.0.1:8000
+- Target: example.com, tick the permission checkbox, Start passive recon
+- See DNS + passive subdomains in the browser, download report as JSON (local only)
+- Out-of-scope targets get 403 OUT_OF_SCOPE_TARGET, no scan
+- Files: server.py (stdlib only, no pip install), web/index.html, web/style.css, web/app.js

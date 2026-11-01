@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ReconX - Passive Recon</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<h1>ReconX</h1>
+<p class="sub">Passive recon only - lab / authorised targets only</p>
+<form id="scanForm">
+<label>Target domain
+<input id="domain" value="example.com" required>
+</label>
+<label class="check"><input type="checkbox" id="confirm" required> I own this target, or I have written permission to test it</label>
+<button type="submit">Start passive recon</button>
+</form>
+<p id="status"></p>
+<section id="results" hidden>
+<h2>DNS</h2>
+<pre id="dns"></pre>
+<h2>Subdomains (crt.sh, passive only)</h2>
+<pre id="subs"></pre>
+<button id="download">Download report (JSON)</button>
+</section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

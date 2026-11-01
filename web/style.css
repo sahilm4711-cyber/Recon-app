@@ -1,0 +1,8 @@
+body{font-family:system-ui,Arial,sans-serif;background:#050805;color:#e5e7eb;margin:0}
+main{max-width:760px;margin:40px auto;padding:0 16px}
+h1{color:#00ff41} .sub{color:#9ca3af}
+form{display:grid;gap:12px;background:#111827;padding:16px;border:1px solid #00ff41;border-radius:8px}
+input[type=text],input{padding:10px;border-radius:6px;border:1px solid #374151;background:#020617;color:#fff;width:100%;box-sizing:border-box}
+button{padding:10px;background:#00ff41;color:#000;font-weight:700;border:0;border-radius:6px;cursor:pointer}
+pre{background:#020617;padding:12px;border-radius:6px;overflow:auto;white-space:pre-wrap}
+.check{display:flex;gap:8px;align-items:flex-start}
